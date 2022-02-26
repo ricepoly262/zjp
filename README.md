@@ -1,2 +1,2 @@
 # zjp
-KubeJS Moderation Scripts for Modded Minecraft
+### KubeJS Moderation Scripts for Modded Minecraft
