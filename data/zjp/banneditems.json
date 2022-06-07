@@ -1,0 +1,12 @@
+{
+	"minecraft:bedrock": {
+		"id": "minecraft:bedrock",
+		"banner": "ricepoly262",
+		"time": "4 June 2022 12:00",
+		"actions": {
+			"noPlace": true,
+			"noCraft": true,
+			"removeFromInventory": true
+		}
+	}
+}
