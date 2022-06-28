@@ -1,3 +1,6 @@
+let zjp_bannedItems = Ingredient.of('#mod:tag').itemIds
+
+
 function removeItems(event) {
 	let ply = event.player
 
@@ -5,14 +8,16 @@ function removeItems(event) {
 	let itemString = ""
 
 	zjp_bannedItems.forEach(item => {
-		let badItem = Item.of(item).ignoreNBT()
+        if( !(item==Item.empty) ){
+            let badItem = Item.of(item).ignoreNBT()
 
-		if (ply.inventory.find(badItem) > -1) {
-			itemString = itemString + "" + item + "\n"
-			items = items + 1
+            if (ply.inventory.find(badItem) > -1) {
+                itemString = itemString + "" + item + "\n"
+                items = items + 1
 
-			if(!ply.op){ply.inventory.clear(badItem)}
-		}
+                if(!ply.op){ply.inventory.clear(badItem)}
+            }
+        }
 	})
     if(!ply.op){
         if (items > 1) {
@@ -55,8 +60,10 @@ onEvent('player.inventory.closed', event => {
 
 onEvent('recipes', event => {
 	zjp_bannedItems.forEach(item => {
-        console.log(`[ZJP] Removing recipe for banned item ${item}`)
-		event.remove({ output: item })
+        if( !(item==Item.empty) ){
+            console.log(`[ZJP] Removing recipe for banned item ${item}`)
+            event.remove({ output: item })
+        }
 	})
 })
 
@@ -67,18 +74,20 @@ onEvent('block.place', e => {
         let ply = e.getEntity()
 
         zjp_noPlace.forEach(b => {
-            if (block == b) {
-                if(ply.op){
-                    ply.tell(Text.of(`Hey ${ply}, be careful with that that`).red())
-                    ply.tell(Text.of(`${b}!`).darkRed())
-                    console.log(`[ZJP] Operator ${ply} placed ${b}`)
-                }
-                else{
-                    ply.tell(Text.of(`Woah there ${ply}, you cant place that`).red())
-                    ply.tell(Text.of(`${b}!`).darkRed())
-                    ply.tell(Text.of(`Attempts to circumvent will be met with a ban `).red())
-                    console.log(`[ZJP] Blocking ${ply} from placing ${b}`)
-                    e.cancel()
+            if( !(b==Item.empty) ){
+                if (block == b) {
+                    if(ply.op){
+                        ply.tell(Text.of(`Hey ${ply.name.string}, be careful with that that`).red())
+                        ply.tell(Text.of(`${b}!`).darkRed())
+                        console.log(`[ZJP] Operator ${ply.name.string} placed ${b}`)
+                    }
+                    else{
+                        ply.tell(Text.of(`Woah there ${ply.name.string}, you cant place that`).red())
+                        ply.tell(Text.of(`${b}!`).darkRed())
+                        ply.tell(Text.of(`Attempts to circumvent will be met with a ban `).red())
+                        console.log(`[ZJP] Blocking ${ply.name.string} from placing ${b}`)
+                        e.cancel()
+                    }
                 }
             }
 
