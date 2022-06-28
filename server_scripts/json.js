@@ -60,13 +60,13 @@ function zjp_banItem(item,ply,isblock){
     
         let banned = zjp_checkBan(item);
         if(banned){
-            console.log(`[ZJP] ${ply} banned ${item}`);
+            console.log(`[ZJP] ${ply.string} banned ${item}`);
             return true;
         }
         return false;
     }
 
-    console.log(`[ZJP] ${ply} attempted banning ${item} but ${item} is already banned`);
+    console.log(`[ZJP] ${ply.string} attempted banning ${item} but ${item} is already banned`);
     return true;
 
 }
@@ -75,7 +75,7 @@ function zjp_unbanItem(item,ply){
     zjp_getBannedItems();
 
     if( (zjp_itemList[item] == undefined) || (zjp_itemList[item] == null) || (zjp_itemList[item].equals({})) ){
-        console.log(`[ZJP] ${ply} attempted unbanning ${item} but ${item} is not banned`);
+        console.log(`[ZJP] ${ply.string} attempted unbanning ${item} but ${item} is not banned`);
         return true;
     };
 
@@ -85,7 +85,7 @@ function zjp_unbanItem(item,ply){
     
     let banned = zjp_checkBan(item);
     if(!banned){
-        console.log(`[ZJP] ${ply} unbanned ${item}`);
+        console.log(`[ZJP] ${ply.string} unbanned ${item}`);
         return true;
     }
 

@@ -7,7 +7,7 @@ onEvent('command.run', event => {
 
     if(source.entity){
         let player = source.entity.asKJS();
-        let playername = player.name;
+        let playername = player.name.string;
         if(fullcommand.equals('/kubejs hand') && results.exceptions.equals({})){
             tellraw(event,playername,player)
         
