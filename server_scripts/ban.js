@@ -40,13 +40,13 @@ function removeItems(event) {
             ply.tell(Text.of(`Hey ${name}, be careful with those `).red())
             ply.tell(Text.of(itemString).darkRed())
             ply.tell(Text.of(`${items} banned items!`).red())
-            console.log(`[ZJP] Operator ${name} has banned items ${items}`)
+            console.log(`[ZJP] Operator ${name} has banned items ${itemString}`)
         }
         else if (items > 0) {
             ply.tell(Text.of(`Hey ${name}, be careful with that `).red())
             ply.tell(Text.of(itemString).darkRed())
             ply.tell(Text.of(`banned item!`).red())
-            console.log(`[ZJP] Operator ${name} has banned item ${items}`)
+            console.log(`[ZJP] Operator ${name} has banned item ${itemString}`)
         }
     }
 }
