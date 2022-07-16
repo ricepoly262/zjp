@@ -12,7 +12,7 @@ function zjp_getBannedItems(){ // gets the banned items
     console.log("[ZJP] Reading banned items");
     zjp_itemList = JsonIO.read(zjp_filepath) || {};
     if(zjp_itemList.equals({})){
-        console.log("[ZJP] ERROR BANNED ITEMS LIST EMPTY OR FAILED TO LOAD")
+        console.log("[ZJP] ERROR: Banned items list empty or failed to load")
     }else{
         console.log("[ZJP] Successfully read item list")
 
