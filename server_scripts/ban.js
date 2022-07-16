@@ -1,6 +1,4 @@
-let zjp_bannedItems = Ingredient.of('#mod:tag').itemIds
-
-
+//let zjp_bannedItems = Ingredient.of('#mod:tag').itemIds
 function removeItems(event) {
 	let ply = event.player
 
@@ -57,11 +55,24 @@ onEvent('player.chest.opened', event => {
 onEvent('player.inventory.closed', event => {
 	removeItems(event)
 })
+onEvent('player.inventory.changed', event => {
+	removeItems(event)
+})
+
 
 onEvent('recipes', event => {
 	zjp_bannedItems.forEach(item => {
         if( !(item==Item.empty) ){
-            console.log(`[ZJP] Removing recipe for banned item ${item}`)
+            console.log(`[ZJP] Attempting recipes removal for banned item ${item}`)
+            event.remove({ output: item })
+        }
+	})
+})
+
+onEvent('recipes.after_load', event => {
+	zjp_bannedItems.forEach(item => {
+        if( !(item==Item.empty) ){
+            console.log(`[ZJP] Attempting recipes.after_load removal for banned item ${item}`)
             event.remove({ output: item })
         }
 	})
