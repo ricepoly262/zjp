@@ -57,10 +57,6 @@ onEvent('player.chest.opened', event => {
 onEvent('player.inventory.closed', event => {
 	removeItems(event)
 })
-onEvent('player.inventory.changed', event => {
-	removeItems(event)
-})
-
 
 onEvent('recipes', event => {
 	zjp_bannedItems.forEach(item => {
