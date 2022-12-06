@@ -9,7 +9,7 @@ function removeItems(event) {
 	zjp_bannedItems.forEach(item => {
 
         if( !(Item.of(item)==Item.empty) ){
-            let badItem = Item.of(item).ignoreNBT()
+            let badItem = Item.of(item)
 
             if (ply.inventory.find(badItem) > -1) {
                 itemString = itemString + "" + item + "\n"
@@ -51,14 +51,14 @@ function removeItems(event) {
     }
 }
 
-onEvent('player.chest.opened', event => {
+PlayerEvents.inventoryOpened( event => {
 	removeItems(event)
 })
-onEvent('player.inventory.closed', event => {
+PlayerEvents.inventoryClosed( event => {
 	removeItems(event)
 })
 
-onEvent('recipes', event => {
+ServerEvents.recipes( event => {
 	zjp_bannedItems.forEach(item => {
         if( !(Item.of(item)==Item.empty) ){
             console.log(`[ZJP] Attempting recipes removal for banned item ${item}`)
@@ -67,7 +67,7 @@ onEvent('recipes', event => {
 	})
 })
 
-onEvent('recipes.after_load', event => {
+ServerEvents.afterRecipes( event => {
 	zjp_bannedItems.forEach(item => {
         if( !(Item.of(item)==Item.empty) ){
             console.log(`[ZJP] Attempting recipes.after_load removal for banned item ${item}`)
@@ -77,7 +77,7 @@ onEvent('recipes.after_load', event => {
 })
 
 
-onEvent('block.place', e => {
+BlockEvents.placed( e => {
     if(e.getEntity().isPlayer()){
         let block = e.getBlock()
         let ply = e.getEntity()
