@@ -1,4 +1,4 @@
-ServerEvents.command( event => {
+onEvent('command.run', event => {
     let results = event.getParseResults();
     let reader = results.reader;
     let context = results.context;
@@ -6,10 +6,9 @@ ServerEvents.command( event => {
     let fullcommand = reader.string;
 
     if(source.entity){
-        let player = source.entity//.asKJS();
+        let player = source.entity.asKJS();
         let playername = player.name.string;
-
-        if(fullcommand.equals('kubejs hand') && results.exceptions.equals({})){
+        if(fullcommand.equals('/kubejs hand') && results.exceptions.equals({})){
             tellraw(event,playername,player)
         
         }
@@ -30,12 +29,12 @@ let tellraw = (event,playername,player) => event.server.schedule(100, () => {
 
 })
   
-// legacy(not LOL, rip custom commands)
-ServerEvents.customCommand( event => {
+
+onEvent('server.custom_command', event => {
     if (event.player.op) {
         if (event.id == 'zjp_banhand') {
             let item = event.player.mainHandItem
-            let banned = zjp_banItem(item.id,event.player.name,item.isBlock())
+            banned = zjp_banItem(item.id,event.player.name,item.isBlock())
             if(banned){
                 event.player.tell("Item banned!")
             }else{
@@ -44,7 +43,7 @@ ServerEvents.customCommand( event => {
         }
         if (event.id == 'zjp_unbanhand') {
             let item = event.player.mainHandItem
-            let unbanned = zjp_unbanItem(item.id,event.player.name)
+            unbanned = zjp_unbanItem(item.id,event.player.name)
             if(unbanned){
                 event.player.tell("Item unbanned!")
             }else{
@@ -54,47 +53,3 @@ ServerEvents.customCommand( event => {
     }
 
 })
-
-
-/* const zjpOptions = ['ban','unban']
-
-ServerEvents.commandRegistry(event=>{
-    const { commands: Commands, arguments: Arguments } = event;
-
-    event.register(
-        Commands.literal('zjp').requires(source => source.getServer().isSingleplayer() || source.hasPermission(2))
-        .then(
-            Commands.argument("ban", Arguments.STRING.create(event))
-            .suggests((ctx, builder) =>
-                event.builtinSuggestions.suggest(zjpOptions, builder)
-            )
-            .executes((ctx) => {
-                ctx.source.sendSuccess("worked ?")
-                return 1;
-            })
-        )
-    )
-});
-
-ServerEvents.commandRegistry(event=>{
-    const { commands: Commands, arguments: Arguments, builtinSuggestions: Suggestions } = event;
-    event.register(
-        Commands.literal("fling")
-        .requires(source => {source.getServer().isSingleplayer() || source.hasPermission(2)})
-        .then(
-        Commands.argument("entity", Arguments.ENTITY.create(event)).then(
-        Commands.argument("x", Arguments.FLOAT.create(event)).then(
-        Commands.argument("y", Arguments.FLOAT.create(event)).then(
-        Commands.argument("z", Arguments.FLOAT.create(event)).executes(ctx => {
-            const entity = Arguments.ENTITY.getResult(ctx, "entity").asKJS();
-            const x = Arguments.FLOAT.getResult(ctx, "x");
-            const y = Arguments.FLOAT.getResult(ctx, "y");
-            const z = Arguments.FLOAT.getResult(ctx, "z");
-            entity.addMotion(x, y, z);
-            entity.minecraftEntity.hurtMarked = true;
-            ctx.source.sendSuccess(Text.of([entity.name, " should now be flinging at ", x, ", ", y, ", ", z]), false);
-            return 1;
-        })))))               
-    )
-})
- */
