@@ -1,25 +1,25 @@
 //let zjp_bannedItems = Ingredient.of('#mod:tag').itemIds
 function removeItems(event) {
-	let ply = event.player
+    let ply = event.player
     let name = ply.name.string
 
-	let items = 0
-	let itemString = ""
+    let items = 0
+    let itemString = ""
 
-	zjp_bannedItems.forEach(item => {
+    zjp_bannedItems.forEach(item => {
 
-        if( !(Item.of(item)==Item.empty) ){
+        if (!(Item.of(item) == Item.empty)) {
             let badItem = Item.of(item)
 
             if (ply.inventory.find(badItem) > -1) {
                 itemString = itemString + "" + item + "\n"
                 items = items + 1
 
-                if(!ply.op){ply.inventory.clear(badItem)}
+                if (!ply.op) { ply.inventory.clear(badItem) }
             }
         }
-	})
-    if(!ply.op){
+    })
+    if (!ply.op) {
         if (items > 1) {
             ply.tell(Text.of(`Woah there ${name}, you cant have those `).red())
             ply.tell(Text.of(itemString).darkRed())
@@ -35,7 +35,7 @@ function removeItems(event) {
             console.log(`[ZJP] Removed banned item ${itemString} from ${name}`)
         }
     }
-    else{
+    else {
         if (items > 1) {
             ply.tell(Text.of(`Hey ${name}, be careful with those `).red())
             ply.tell(Text.of(itemString).darkRed())
@@ -51,47 +51,47 @@ function removeItems(event) {
     }
 }
 
-PlayerEvents.inventoryOpened( event => {
-	removeItems(event)
+PlayerEvents.inventoryOpened(event => {
+    removeItems(event)
 })
-PlayerEvents.inventoryClosed( event => {
-	removeItems(event)
+PlayerEvents.inventoryClosed(event => {
+    removeItems(event)
 })
 
-ServerEvents.recipes( event => {
-	zjp_bannedItems.forEach(item => {
-        if( !(Item.of(item)==Item.empty) ){
+ServerEvents.recipes(event => {
+    zjp_bannedItems.forEach(item => {
+        if (!(Item.of(item) == Item.empty)) {
             console.log(`[ZJP] Attempting recipes removal for banned item ${item}`)
             event.remove({ output: item })
         }
-	})
+    })
 })
 
-ServerEvents.afterRecipes( event => {
-	zjp_bannedItems.forEach(item => {
-        if( !(Item.of(item)==Item.empty) ){
+ServerEvents.afterRecipes(event => {
+    zjp_bannedItems.forEach(item => {
+        if (!(Item.of(item) == Item.empty)) {
             console.log(`[ZJP] Attempting recipes.after_load removal for banned item ${item}`)
             event.remove({ output: item })
         }
-	})
+    })
 })
 
 
-BlockEvents.placed( e => {
-    if(e.getEntity().isPlayer()){
+BlockEvents.placed(e => {
+    if (e.getEntity().isPlayer()) {
         let block = e.getBlock()
         let ply = e.getEntity()
         let name = ply.name.string
 
         zjp_noPlace.forEach(b => {
-            if( !(Item.of(b)==Item.empty) ){
+            if (!(Item.of(b) == Item.empty)) {
                 if (block == b) {
-                    if(ply.op){
+                    if (ply.op) {
                         ply.tell(Text.of(`Hey ${name}, be careful with that that`).red())
                         ply.tell(Text.of(`${b}!`).darkRed())
                         console.log(`[ZJP] Operator ${name} placed ${b}`)
                     }
-                    else{
+                    else {
                         ply.tell(Text.of(`Woah there ${name}, you cant place that`).red())
                         ply.tell(Text.of(`${b}!`).darkRed())
                         ply.tell(Text.of(`Attempts to circumvent will be met with a ban `).red())
