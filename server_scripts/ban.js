@@ -6,7 +6,7 @@ function removeItems(event) {
     let items = 0
     let itemString = ""
 
-    zjp_bannedItems.forEach(item => {
+    zjp_noHold.forEach(item => {
 
         if (!(Item.of(item) == Item.empty)) {
             let badItem = Item.of(item)
@@ -59,7 +59,7 @@ PlayerEvents.inventoryClosed(event => {
 })
 
 ServerEvents.recipes(event => {
-    zjp_bannedItems.forEach(item => {
+    zjp_noCraft.forEach(item => {
         if (!(Item.of(item) == Item.empty)) {
             console.log(`[ZJP] Attempting recipes removal for banned item ${item}`)
             event.remove({ output: item })
@@ -68,7 +68,7 @@ ServerEvents.recipes(event => {
 })
 
 ServerEvents.afterRecipes(event => {
-    zjp_bannedItems.forEach(item => {
+    zjp_noCraft.forEach(item => {
         if (!(Item.of(item) == Item.empty)) {
             console.log(`[ZJP] Attempting recipes.after_load removal for banned item ${item}`)
             event.remove({ output: item })

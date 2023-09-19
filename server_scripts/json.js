@@ -2,8 +2,11 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 const zjp_filepath = 'kubejs/data/zjp/banneditems.json';
 
 var zjp_itemList = {};
-var zjp_noPlace = [];
 var zjp_bannedItems = [];
+
+var zjp_noPlace = [];
+var zjp_noCraft = [];
+var zjp_noHold = [];
 
 zjp_getBannedItems();
 
@@ -22,9 +25,19 @@ function zjp_getBannedItems() { // gets the banned items
         zjp_itemList.forEach(item => {
             if (!zjp_itemList[item].equals({})) {
                 zjp_bannedItems.push(zjp_itemList[item].id);
+				
                 if (zjp_itemList[item].actions.noPlace) {
                     zjp_noPlace.push(zjp_itemList[item].id)
                 }
+				
+				if (zjp_itemList[item].actions.noCraft) {
+                    zjp_noCraft.push(zjp_itemList[item].id)
+                }
+
+				if (zjp_itemList[item].actions.removeFromInventory) {
+                    zjp_noHold.push(zjp_itemList[item].id)
+                }				
+				
             }
         })
     }
